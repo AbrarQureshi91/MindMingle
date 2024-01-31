@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Detail</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .post-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2185d0;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        ul ul {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="post-container">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.description }}</p>
+    <img src="{{ post.post_image.url }}" alt="{{ post.title }} Image">
+
+    <form method="post" action="{% url 'post_detail' pk=post.pk %}">
+        {% csrf_token %}
+        <button type="submit" name="like">Like</button>
+    </form>
+
+    <form method="post" action="{% url 'post_detail' pk=post.pk %}">
+        {% csrf_token %}
+        <input type="text" name="share_with_username" placeholder="Enter username">
+        <button type="submit" name="share">Share</button>
+    </form>
+
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in post.comments.all %}
+        <li>{{ comment.text }} - {{ comment.user.username }} - {{ comment.created_at }}</li>
+        <ul>
+            {% for reply in comment.replies.all %}
+            <li>{{ reply.text }} - {{ reply.user.username }} - {{ reply.created_at }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </ul>
+
+    <form method="post" action="{% url 'post_detail' pk=post.pk %}">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Add Comment</button>
+    </form>
+
+    <form method="post" action="{% url 'post_detail' pk=post.pk %}">
+        {% csrf_token %}
+        {{ reply_form.as_p }}
+        <input type="hidden" name="comment_id" value="{{ comment.id }}">
+        <button type="submit">Reply</button>
+    </form>
+</div>
+
+</body>
+</html>

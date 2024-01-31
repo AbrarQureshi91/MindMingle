@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .user-card {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .post-card {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button Styles */
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .user-image {
+            max-width: 100%;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .post-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ object.image.url }}" width="100" class="rounded-circle">
+    <h3 class="mt-2">{{ object.name }}</h3>
+    <div class="user-card">
+        <img class="user-image" src="{{ user.profile_image.url }}" alt="{{ user.username }} Image">
+        <h1>{{ user.username }}</h1>
+        <p>{{ user.bio }}</p>
+        
+        <ul>
+            {% for post in posts %}
+            <li class="post-card">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.description }}</p>
+                <img class="post-image" src="{{ post.post_image.url }}" alt="{{ post.title }} Image">
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+   
+</body>
+</html>

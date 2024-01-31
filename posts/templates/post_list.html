@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .blog-wrapper {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .blog-card {
+            width: 300px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-img {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-img h1 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .card-details span {
+            display: flex;
+            align-items: center;
+        }
+
+        .card-details i {
+            margin-right: 5px;
+        }
+
+        .card-text {
+         
+            padding:30px 15px;
+			font-family: 'Roboto', sans-serif;
+			line-height:22px;
+        }
+        
+        .read-more {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>All Posts</h1>
+
+<div class="blog-wrapper">
+    {% for post in posts %}
+    <div class="blog-card">
+        <div class="card-img">
+            <img src="{{ post.post_image.url }}" alt="{{ post.title }}">
+            <h1>{{ post.title }}</h1>
+        </div>
+        <div class="card-details">
+            <span><i class="fa fa-calendar"></i>{{ post.created_at|date:"M j" }}</span>
+            <span><i class="fa fa-heart"></i>{{ post.no_of_likes }}</span>
+        </div>
+        
+        <div class="read-more">
+            <a href="{% url 'post_detail' post.id %}" style="text-decoration: none; color: white;">Read More</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
+
+{% endblock  %}
